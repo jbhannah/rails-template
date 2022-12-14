@@ -1,0 +1,62 @@
+---
+name: Rails CI
+on: [push]
+env:
+  RAILS_ENV: test
+  RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+  brakeman:
+    runs-on: ubuntu-latest
+    needs: bundle
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bin/brakeman
+  rubocop:
+    runs-on: ubuntu-latest
+    needs: bundle
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bin/rubocop
+  rspec:
+    runs-on: ubuntu-latest
+    needs: bundle
+    env:
+      PGHOST: localhost
+      PGUSER: <%= app_name %>
+      PGPASSWORD: <%= app_name %>
+    services:
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_DB: <%= app_name %>_test
+          POSTGRES_PASSWORD: <%= app_name %>
+          POSTGRES_USER: <%= app_name %>
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: bin/rails db:setup
+      - run: bin/rspec
+      - uses: codecov/codecov-action@v3

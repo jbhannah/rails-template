@@ -1,0 +1,28 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+AllCops:
+  NewCops: enable
+Metrics/BlockLength:
+  Exclude:
+    - lib/tasks/**/*
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - app/controllers/concerns/**/*
+Rails/SkipsModelValidations:
+  Exclude:
+    - spec/factories/**/*
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+RSpec/VariableName:
+  Exclude:
+    - spec/requests/**/*
+Style/Documentation:
+  Exclude:
+    - app/controllers/**/*
+    - app/helpers/**/*
+    - config/**/*
+    - db/migrate/*
