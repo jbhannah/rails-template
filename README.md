@@ -46,6 +46,7 @@ in the default arguments can (but probably shouldn't) be overridden with
 - Installs git hooks with Overcommit to run Rubocop, Brakeman, and RSpec
 - Configures [Dependabot][db] for Bundler and GitHub Actions updates
 - Configures CI on [GitHub Actions][ga]
+  - Adds `x86_64-linux` to the list of Bundler platforms
   - Runs and caches `bundle install`
   - Runs Brakeman, Rubocop, and RSpec
   - Configures [CodeQL][cq]

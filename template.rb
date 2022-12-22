@@ -63,8 +63,9 @@ after_bundle do
   rails_command 'db:migrate'
 
   run 'bundle binstubs brakeman overcommit rspec-core rubocop solargraph'
-  run 'bin/rubocop -A'
+  run 'bundle lock --add-platform x86_64-linux'
 
+  run 'bin/rubocop -A'
   run 'bin/overcommit -i'
 
   git add: '.'
