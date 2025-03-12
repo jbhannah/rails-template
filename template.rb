@@ -7,6 +7,23 @@ if caller.empty?
   exit 0
 end
 
+inject_into_file "Gemfile", after: "group :development, :test do\n" do
+  <<~RUBY.indent(2)
+    gem "factory_bot_rails"
+    gem "faker"
+
+  RUBY
+end
+
+inject_into_class "test/test_helper.rb", "TestCase" do
+  <<~RUBY.indent(4)
+    include FactoryBot::Syntax::Methods
+  RUBY
+end
+
+empty_directory "test/factories"
+create_file "test/factories/.keep"
+
 after_bundle do
   generate :migration, "enable_pgcrypto_extension", "--skip"
   pgcrypto_migration_file = Dir.glob("db/migrate/*_enable_pgcrypto_extension.rb").first
@@ -36,5 +53,6 @@ after_bundle do
     RUBY
   end
 
+  remove_dir "test/fixtures"
   rails_command "db:migrate"
 end
