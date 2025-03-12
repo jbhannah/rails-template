@@ -25,6 +25,7 @@ otherwise specified in `options`):
 ```text
 --css=tailwind
 --database=postgresql
+--devcontainer
 ```
 
 [!CAUTION]

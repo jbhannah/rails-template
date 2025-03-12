@@ -3,6 +3,7 @@ require_relative "helpers"
 options = {
   css: "tailwind",
   database: "postgresql",
+  devcontainer: true,
 }
 
 if (%w[-h --help] & ARGV).any?
