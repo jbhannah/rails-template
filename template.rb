@@ -42,6 +42,8 @@ after_bundle do
     RUBY
   end
 
+  generate :authentication, "--skip"
+
   remove_dir "test/fixtures"
   rails_command "db:migrate"
 end
