@@ -1,8 +1,9 @@
-source_paths.unshift(File.expand_path("source", __dir__))
+source_path = File.expand_path("source", __dir__)
+source_paths.unshift(source_path)
 
-directory "config"
-directory "db"
-directory "test"
+Pathname.new(source_path).children.select(&:directory?).each do |dir|
+  directory "#{dir.basename}"
+end
 
 inject_into_file "app/models/application_record.rb", before: "end\n" do
   <<~RUBY.indent(2)
