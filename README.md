@@ -10,23 +10,27 @@ Use the template directly with `rails new`:
 rails new APP_PATH [options] --template=https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/template.rb
 ```
 
-or run it as a bootstrapping script that uses Bundler to install Rails, then
-forwards `options` to `bundle exec rails new`:
+or run a bootstrapping script that uses Bundler to install Rails, then forwards
+`options` to `bundle exec rails new`:
 
 ```bash
-curl -L https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/template.rb | ruby - APP_PATH [options]
+curl -L https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/bootstrap.rb | ruby - APP_PATH [options]
 ```
 
 ### Overrides
 
-When run as a bootstrapping script, the following overrides are used (unless
-otherwise specified in `options`):
+When running the bootstrapping script, the following options are passed to
+`bundle exec rails new`:
 
 ```text
 --css=tailwind
 --database=postgresql
 --devcontainer
+--template=https://raw.githubusercontent.com/jbhannah/rails-templates/HEAD/template.rb
 ```
+
+With the exception of `--template`, any options you specify will take priority
+over these overrides.
 
 [!CAUTION]
 These overrides are not applied when using the template with `rails new`, only

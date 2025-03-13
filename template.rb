@@ -1,12 +1,3 @@
-#!/usr/bin/env ruby
-
-if caller.empty?
-  puts "Running script directly, bootstrapping Rails app"
-
-  require_relative "lib/bootstrap"
-  exit 0
-end
-
 source_paths.unshift(File.expand_path("source", __dir__))
 
 directory "config"
