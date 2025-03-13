@@ -4,11 +4,24 @@ directory "config"
 directory "db"
 directory "test"
 
-inject_into_file "Gemfile", after: "group :development, :test do\n" do
+inject_into_file "app/models/application_record.rb", before: "end\n" do
   <<~RUBY.indent(2)
-    gem "factory_bot_rails"
-    gem "faker"
 
+    before_create :generate_uuid_v7
+
+    private
+
+    def generate_uuid_v7
+      self.id ||= SecureRandom.uuid_v7
+    end
+  RUBY
+end
+
+append_to_file "config/puma.rb" do
+  <<~RUBY
+
+    # Enable the Tailwind CSS plugin for Puma in development
+    plugin :tailwindcss if ENV.fetch("RAILS_ENV", "development") == "development"
   RUBY
 end
 
@@ -19,20 +32,15 @@ inject_into_class "test/test_helper.rb", "TestCase" do
   RUBY
 end
 
+inject_into_file "Gemfile", after: "group :development, :test do\n" do
+  <<~RUBY.indent(2)
+    gem "factory_bot_rails"
+    gem "faker"
+
+  RUBY
+end
+
 after_bundle do
-  inject_into_file "app/models/application_record.rb", before: "end\n" do
-    <<~RUBY.indent(2)
-
-      before_create :generate_uuid_v7
-
-      private
-
-      def generate_uuid_v7
-        self.id ||= SecureRandom.uuid_v7
-      end
-    RUBY
-  end
-
   generate :authentication, "--skip"
 
   remove_dir "test/fixtures"
