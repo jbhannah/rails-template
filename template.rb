@@ -44,6 +44,14 @@ end
 after_bundle do
   generate :authentication, "--skip"
 
+  generate :controller, "root", "index", "--skip", "--skip-collision-check", "--skip-routes", "--skip-helper"
+
+  inject_into_file "config/routes.rb", after: "root \"posts#index\"\n" do
+    <<~RUBY.indent(2)
+      root "root#index"
+    RUBY
+  end
+
   remove_dir "test/fixtures"
   rails_command "db:migrate"
 end
