@@ -1,8 +1,33 @@
-source_path = File.expand_path("source", __dir__)
-source_paths.unshift(source_path)
+initializer "generators.rb" do
+  <<~RUBY
+    Rails.application.config.generators do |g|
+      g.orm :active_record, primary_key_type: :uuid
+    end
+  RUBY
+end
 
-Pathname.new(source_path).children.select(&:directory?).each do |dir|
-  directory "#{dir.basename}"
+empty_directory ".vscode"
+
+create_file ".vscode/launch.json" do
+  <<~JSON
+    {
+      "version": "0.2.0",
+      "configurations": [
+        {
+          "type": "ruby_lsp",
+          "name": "Rails Server",
+          "request": "launch",
+          "program": "${workspaceFolder}/bin/rails s"
+        },
+        {
+          "type": "ruby_lsp",
+          "name": "Rails Console",
+          "request": "launch",
+          "program": "${workspaceFolder}/bin/rails c"
+        }
+      ]
+    }
+  JSON
 end
 
 inject_into_file "app/models/application_record.rb", before: "end\n" do
@@ -40,6 +65,21 @@ inject_into_class "test/test_helper.rb", "TestCase" do
   RUBY
 end
 
+inject_into_file "test/application_system_test_case.rb", before: "end\n" do
+  <<~RUBY.indent(2)
+
+    protected
+
+    def sign_in(user)
+      visit new_session_path
+      fill_in :email_address, with: user.email_address
+      fill_in :password, with: user.password
+      click_button "Sign in"
+      assert_selector "h1", text: "Tasks"
+    end
+  RUBY
+end
+
 gsub_file ".gitignore", "/config/master.key", "/config/**/*.key"
 
 inject_into_file "Gemfile", after: "group :development, :test do\n" do
@@ -51,6 +91,14 @@ inject_into_file "Gemfile", after: "group :development, :test do\n" do
 end
 
 after_bundle do
+  generate :migration, "enable_pgcrypto_extension", "--skip"
+
+  inject_into_file Pathname.glob("db/migrate/*_enable_pgcrypto_extension.rb").first, after: "def change\n" do
+    <<~RUBY.indent(4)
+      enable_extension :pgcrypto
+    RUBY
+  end
+
   generate :authentication, "--skip"
 
   inject_into_class "app/models/session.rb", "Session" do
@@ -62,6 +110,40 @@ after_bundle do
   inject_into_class "app/models/user.rb", "User" do
     <<~RUBY.indent(2)
       encrypts :email_address, deterministic: true
+    RUBY
+  end
+
+  inject_into_class "test/models/user_test.rb", "UserTest" do
+    <<~RUBY.indent(2)
+      test "valid" do
+        user = build(:user)
+        assert user.valid?
+      end
+    RUBY
+  end
+
+  empty_directory "test/factories"
+
+  create_file "test/factories/users.rb" do
+    <<~RUBY
+      FactoryBot.define do
+        factory :user do
+          email_address { Faker::Internet.email }
+          password { Faker::Internet.password }
+        end
+      end
+    RUBY
+  end
+
+  empty_directory "test/support/helpers"
+
+  create_file "test/support/helpers/sign_in_helper.rb" do
+    <<~RUBY
+      module SignInHelper
+        def sign_in(user)
+          post session_path(email_address: user.email_address, password: user.password)
+        end
+      end
     RUBY
   end
 
