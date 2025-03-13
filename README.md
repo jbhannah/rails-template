@@ -7,14 +7,14 @@ My personal preferred template for starting a new Rails application.
 Use the template directly with `rails new`:
 
 ```bash
-rails new APP_PATH [options] --template=https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/template.rb
+rails new APP_PATH [options] --template=https://raw.githubusercontent.com/jbhannah/rails-template/refs/heads/trunk/template.rb
 ```
 
 or run a bootstrapping script that uses Bundler to install Rails, then forwards
 `options` to `bundle exec rails new`:
 
 ```bash
-curl -L https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/bootstrap.rb | ruby - APP_PATH [options]
+curl -L https://raw.githubusercontent.com/jbhannah/rails-template/refs/heads/trunk/bootstrap.rb | ruby - APP_PATH [options]
 ```
 
 ### Overrides
@@ -26,7 +26,7 @@ When running the bootstrapping script, the following options are passed to
 --css=tailwind
 --database=postgresql
 --devcontainer
---template=https://raw.githubusercontent.com/jbhannah/rails-templates/HEAD/template.rb
+--template=https://raw.githubusercontent.com/jbhannah/rails-template/refs/heads/trunk/template.rb
 ```
 
 With the exception of `--template`, any options you specify will take priority

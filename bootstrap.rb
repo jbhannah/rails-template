@@ -78,7 +78,7 @@ rails_new_command += ARGV
 if File.exist?("../template.rb")
   rails_new_command << "--template=../template.rb"
 else
-  rails_new_command << "--template=https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/template.rb"
+  rails_new_command << "--template=https://raw.githubusercontent.com/jbhannah/rails-template/refs/heads/trunk/template.rb"
 end
 
 puts <<~EOF
