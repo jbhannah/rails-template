@@ -18,6 +18,13 @@ inject_into_file "app/models/application_record.rb", before: "end\n" do
   RUBY
 end
 
+inject_into_file "config/application.rb", before: "  end\n" do
+  <<~RUBY.indent(4)
+
+    config.active_record.encryption.key_provider = ActiveRecord::Encryption::EnvelopeEncryptionKeyProvider.new
+  RUBY
+end
+
 append_to_file "config/puma.rb" do
   <<~RUBY
 
@@ -33,6 +40,8 @@ inject_into_class "test/test_helper.rb", "TestCase" do
   RUBY
 end
 
+gsub_file ".gitignore", "/config/master.key", "/config/**/*.key"
+
 inject_into_file "Gemfile", after: "group :development, :test do\n" do
   <<~RUBY.indent(2)
     gem "factory_bot_rails"
@@ -43,6 +52,18 @@ end
 
 after_bundle do
   generate :authentication, "--skip"
+
+  inject_into_class "app/models/session.rb", "Session" do
+    <<~RUBY.indent(2)
+      encrypts :ip_address, :user_agent
+    RUBY
+  end
+
+  inject_into_class "app/models/user.rb", "User" do
+    <<~RUBY.indent(2)
+      encrypts :email_address, deterministic: true
+    RUBY
+  end
 
   generate :controller, "root", "index", "--skip", "--skip-collision-check", "--skip-routes", "--skip-helper"
 

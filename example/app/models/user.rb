@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  encrypts :email_address, deterministic: true
   has_secure_password
   has_many :sessions, dependent: :destroy
 
