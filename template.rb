@@ -30,7 +30,7 @@ create_file ".vscode/launch.json" do
   JSON
 end
 
-inject_into_file "app/models/application_record.rb", before: "end\n" do
+inject_into_file "app/models/application_record.rb", before: %r{^end$} do
   <<~RUBY.indent(2)
 
     before_create :generate_uuid_v7
@@ -43,7 +43,7 @@ inject_into_file "app/models/application_record.rb", before: "end\n" do
   RUBY
 end
 
-inject_into_file "config/application.rb", before: "  end\n" do
+inject_into_file "config/application.rb", before: %r{^  end$} do
   <<~RUBY.indent(4)
 
     config.active_record.encryption.key_provider = ActiveRecord::Encryption::EnvelopeEncryptionKeyProvider.new
@@ -57,7 +57,7 @@ inject_into_class "test/test_helper.rb", "TestCase" do
   RUBY
 end
 
-inject_into_file "test/application_system_test_case.rb", before: "end\n" do
+inject_into_file "test/application_system_test_case.rb", before: %r{^end$} do
   <<~RUBY.indent(2)
 
     protected
