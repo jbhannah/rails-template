@@ -65,6 +65,12 @@ if app_path != "."
   Dir.chdir(app_path)
 end
 
+File.open(".ruby-version", "w") do |f|
+  f.write RUBY_VERSION
+end unless File.exist?(".ruby-version")
+
+system("rbenv install --skip-existing")
+
 created_gemfile = install_rails
 
 rails_new_command = %w[bundle exec rails new .]
