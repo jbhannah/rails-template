@@ -10,7 +10,7 @@ task :clean do
 end
 
 task :example do
-  sh "./bootstrap.rb example"
+  sh "ruby bootstrap.rb example"
 end
 
 task default: %i[clean example]

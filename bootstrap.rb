@@ -102,7 +102,7 @@ if system(*rails_new_command)
     Rails app created successfully#{" in #{app_path}" if app_path != "."}!
     You can now#{" cd into it and" if app_path != "."} start it with:
 
-        #{"cd #{app_path}\n    " if app_path != "."}bin/rails server
+        #{"cd #{app_path}\n    " if app_path != "."}bin/dev
   EOF
 else
   exit $?.exitstatus
