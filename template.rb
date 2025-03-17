@@ -50,14 +50,6 @@ inject_into_file "config/application.rb", before: "  end\n" do
   RUBY
 end
 
-append_to_file "config/puma.rb" do
-  <<~RUBY
-
-    # Enable the Tailwind CSS plugin for Puma in development
-    plugin :tailwindcss if ENV.fetch("RAILS_ENV", "development") == "development"
-  RUBY
-end
-
 inject_into_class "test/test_helper.rb", "TestCase" do
   <<~RUBY.indent(4)
     include FactoryBot::Syntax::Methods
