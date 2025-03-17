@@ -6,6 +6,7 @@ My personal preferred template for starting a new Rails application.
 
 - Ruby
 - rbenv
+- PostgreSQL (unless you specify a different database)
 - [Bun][bun] (unless you specify [importmap-rails][importmap] or a
   different [jsbundling-rails][jsbundling] bundler)
 
@@ -57,6 +58,13 @@ You can also (re)apply the template to an existing app:
 
 ```bash
 bin/rails app:template LOCATION=https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/template.rb
+```
+
+## Development
+
+```bash
+bundle install
+rake --tasks
 ```
 
 ## Copyright
