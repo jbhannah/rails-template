@@ -1,5 +1,11 @@
 require "pathname"
 
+task :apply do
+  Dir.chdir("example") do
+    sh "bin/rails app:template LOCATION=../template.rb"
+  end
+end
+
 task :clean do
   example = Pathname.new('example')
   example.rmtree if example.exist?
