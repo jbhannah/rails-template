@@ -87,7 +87,7 @@ after_bundle do
 
   generate :migration, "enable_pgcrypto_extension", "--skip"
 
-  inject_into_file Pathname.glob("db/migrate/*_enable_pgcrypto_extension.rb").first, after: "def change\n" do
+  inject_into_file Pathname.glob("db/migrate/*_enable_pgcrypto_extension.rb").first, after: %r{def change\n} do
     <<~RUBY.indent(4)
       enable_extension :pgcrypto
     RUBY
@@ -142,12 +142,7 @@ after_bundle do
   end
 
   generate :controller, "root", "index", "--skip", "--skip-collision-check", "--skip-routes", "--skip-helper"
-
-  inject_into_file "config/routes.rb", after: "root \"posts#index\"\n" do
-    <<~RUBY.indent(2)
-      root "root#index"
-    RUBY
-  end
+  gsub_file "config/routes.rb", %{# root "posts#index"}, %{root "root#index"}
 
   remove_dir "test/fixtures"
   rails_command "db:migrate"
