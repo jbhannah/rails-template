@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 
 options = {
-  css: "tailwind",
+  css: "postcss",
   database: "postgresql",
   devcontainer: true,
+  javascript: "bun",
 }
 
 def install_rails

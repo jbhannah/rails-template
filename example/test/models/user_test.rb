@@ -5,4 +5,7 @@ class UserTest < ActiveSupport::TestCase
     user = build(:user)
     assert user.valid?
   end
+  # test "the truth" do
+  #   assert true
+  # end
 end

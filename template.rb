@@ -91,6 +91,8 @@ inject_into_file "Gemfile", after: "group :development, :test do\n" do
 end
 
 after_bundle do
+  rails_command "css:install:tailwind"
+
   generate :migration, "enable_pgcrypto_extension", "--skip"
 
   inject_into_file Pathname.glob("db/migrate/*_enable_pgcrypto_extension.rb").first, after: "def change\n" do
