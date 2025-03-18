@@ -17,6 +17,16 @@ task :clean do
   end
 end
 
+desc "Bootstrap the app in an empty directory"
+task cd: :clean do
+  example = Pathname.new('example')
+  example.mkdir
+
+  Dir.chdir(example) do
+    sh "ruby ../bootstrap.rb ."
+  end
+end
+
 desc "Clean and bootstrap the example app"
 task example: :clean do
   sh "ruby bootstrap.rb example"
