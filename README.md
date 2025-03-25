@@ -6,9 +6,8 @@ My personal preferred template for starting a new Rails application.
 
 - Ruby
 - rbenv
+- Node.js
 - PostgreSQL (unless you specify a different database)
-- [Bun][bun] (unless you specify [importmap-rails][importmap] or a
-  different [jsbundling-rails][jsbundling] bundler)
 
 ## Usage
 
@@ -72,7 +71,4 @@ rake --tasks
 Copyright © 2025 Jesse Brooklyn Hannah. Licensed under the terms of the
 [MIT License][license].
 
-[bun]: https://bun.sh/
-[importmap]: https://github.com/rails/importmap-rails
-[jsbundling]: https://github.com/rails/jsbundling-rails
 [license]: LICENSE.md

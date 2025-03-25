@@ -83,8 +83,6 @@ inject_into_file "Gemfile", after: "group :development, :test do\n" do
 end
 
 after_bundle do
-  rails_command "css:install:tailwind"
-
   generate :migration, "enable_pgcrypto_extension", "--skip"
 
   inject_into_file Pathname.glob("db/migrate/*_enable_pgcrypto_extension.rb").first, after: %r{def change\n} do
@@ -107,6 +105,8 @@ after_bundle do
     RUBY
   end
 
+  remove_dir "test/fixtures"
+
   inject_into_class "test/models/user_test.rb", "UserTest" do
     <<~RUBY.indent(2)
       test "valid" do
@@ -117,7 +117,6 @@ after_bundle do
   end
 
   empty_directory "test/factories"
-
   create_file "test/factories/users.rb" do
     <<~RUBY
       FactoryBot.define do
@@ -130,7 +129,6 @@ after_bundle do
   end
 
   empty_directory "test/support/helpers"
-
   create_file "test/support/helpers/sign_in_helper.rb" do
     <<~RUBY
       module SignInHelper
@@ -144,6 +142,44 @@ after_bundle do
   generate :controller, "root", "index", "--skip", "--skip-collision-check", "--skip-routes", "--skip-helper"
   gsub_file "config/routes.rb", %{# root "posts#index"}, %{root "root#index"}
 
-  remove_dir "test/fixtures"
+  append_to_file ".gitignore" do
+    <<~GITIGNORE
+
+      /.yarn/*
+      /!.yarn/cache
+      /!.yarn/patches
+      /!.yarn/plugins
+      /!.yarn/releases
+      /!.yarn/sdks
+      /!.yarn/versions
+    GITIGNORE
+  end
+
+  run "yarn add tailwindcss @tailwindcss/postcss"
+
+  append_to_file "app/assets/stylesheets/application.postcss.css" do
+    <<~CSS
+      @import "tailwindcss";
+    CSS
+  end
+
+  remove_file "postcss.config.js"
+  create_file "postcss.config.mjs" do
+    <<~JS
+      export default {
+        plugins: {
+          "postcss-import": {},
+          "postcss-nesting": {},
+          autoprefixer: {},
+          "@tailwindcss/postcss": {},
+        },
+      };
+    JS
+  end
+
+  inject_into_file "app/views/layouts/application.html.erb", %{ lang="en"}, after: "<html"
+  gsub_file "app/views/layouts/application.html.erb", %r{^.*Includes all stylesheet files in app/assets/stylesheets.*\n}, ""
+  gsub_file "app/views/layouts/application.html.erb", /(stylesheet_link_tag) :app,/, '\1 "application",'
+
   rails_command "db:migrate"
 end

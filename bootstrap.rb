@@ -7,7 +7,7 @@ def options
     css: "postcss",
     database: "postgresql",
     devcontainer: true,
-    javascript: "bun",
+    javascript: "esbuild",
   }
 end
 
@@ -82,8 +82,9 @@ def rails_new(dir, force, is_cwd)
 
   rails_new_command += ARGV
 
-  if File.exist?("../template.rb")
-    rails_new_command << "--template=../template.rb"
+  template = Pathname(dir / ".." / "template.rb").realpath
+  if template.exist?
+    rails_new_command << "--template=#{template}"
   else
     rails_new_command << "--template=https://raw.githubusercontent.com/jbhannah/rails-template/refs/heads/trunk/template.rb"
   end
