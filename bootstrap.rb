@@ -82,9 +82,9 @@ def rails_new(dir, force, is_cwd)
 
   rails_new_command += ARGV
 
-  template = Pathname(dir / ".." / "template.rb").realpath
+  template = Pathname(dir / ".." / "template.rb")
   if template.exist?
-    rails_new_command << "--template=#{template}"
+    rails_new_command << "--template=#{template.realpath}"
   else
     rails_new_command << "--template=https://raw.githubusercontent.com/jbhannah/rails-template/refs/heads/trunk/template.rb"
   end
