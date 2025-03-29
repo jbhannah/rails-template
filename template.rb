@@ -6,6 +6,16 @@ initializer "generators.rb" do
   RUBY
 end
 
+append_to_file ".github/dependabot.yml" do
+  <<~YAML
+    - package-ecosystem: npm
+      directory: "/"
+      schedule:
+        interval: daily
+      open-pull-requests-limit: 10
+  YAML
+end
+
 empty_directory ".vscode"
 
 create_file ".vscode/launch.json" do

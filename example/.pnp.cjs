@@ -723,7 +723,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["browserslist", "npm:4.24.4"],\
           ["caniuse-lite", "npm:1.0.30001707"],\
-          ["electron-to-chromium", "npm:1.5.124"],\
+          ["electron-to-chromium", "npm:1.5.128"],\
           ["node-releases", "npm:2.0.19"],\
           ["update-browserslist-db", "virtual:2fdeb5face9914bb5fd94c70f084d153c80d2f09e5aabee010e4220b248dc23fca8f73c7beed0195e45ae6e2b1cb25388f709d7bfc4f00e473d573887faf4e5c#npm:1.1.3"]\
         ],\
@@ -889,10 +889,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["electron-to-chromium", [\
-      ["npm:1.5.124", {\
-        "packageLocation": "../../../../../../.yarn/berry/cache/electron-to-chromium-npm-1.5.124-d455b829b8-10c0.zip/node_modules/electron-to-chromium/",\
+      ["npm:1.5.128", {\
+        "packageLocation": "../../../../../../.yarn/berry/cache/electron-to-chromium-npm-1.5.128-97c0b05636-10c0.zip/node_modules/electron-to-chromium/",\
         "packageDependencies": [\
-          ["electron-to-chromium", "npm:1.5.124"]\
+          ["electron-to-chromium", "npm:1.5.128"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1825,7 +1825,7 @@ const RAW_RUNTIME_STATE =
           ["lilconfig", "npm:3.1.3"],\
           ["postcss", "npm:8.5.3"],\
           ["tsx", null],\
-          ["yaml", "npm:2.7.0"]\
+          ["yaml", "npm:2.7.1"]\
         ],\
         "packagePeers": [\
           "@types/jiti",\
@@ -2351,10 +2351,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["yaml", [\
-      ["npm:2.7.0", {\
-        "packageLocation": "../../../../../../.yarn/berry/cache/yaml-npm-2.7.0-bb348b356b-10c0.zip/node_modules/yaml/",\
+      ["npm:2.7.1", {\
+        "packageLocation": "../../../../../../.yarn/berry/cache/yaml-npm-2.7.1-9e92f81b45-10c0.zip/node_modules/yaml/",\
         "packageDependencies": [\
-          ["yaml", "npm:2.7.0"]\
+          ["yaml", "npm:2.7.1"]\
         ],\
         "linkType": "HARD"\
       }]\
