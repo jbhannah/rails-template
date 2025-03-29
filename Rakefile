@@ -1,5 +1,7 @@
 require "pathname"
 
+example = Pathname.new('example')
+
 desc "Apply the template to the existing example app"
 task :apply do
   Dir.chdir("example") do
@@ -9,7 +11,6 @@ end
 
 desc "Remove the example app and its databases"
 task :clean do
-  example = Pathname.new('example')
   example.rmtree if example.exist?
 
   %w[development test].each do |env|
@@ -19,7 +20,6 @@ end
 
 desc "Bootstrap the app in an empty directory"
 task cd: :clean do
-  example = Pathname.new('example')
   example.mkdir
 
   Dir.chdir(example) do

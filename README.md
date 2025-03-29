@@ -40,7 +40,7 @@ When running the bootstrapping script, the following options are passed to
 --css=postcss
 --database=postgresql
 --devcontainer
---javascript=bun
+--javascript=esbuild
 --template=https://raw.githubusercontent.com/jbhannah/rails-template/HEAD/template.rb
 ```
 
